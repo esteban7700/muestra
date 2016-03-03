@@ -16,6 +16,14 @@
  */
 package edu.eci.pdsw.samples.tests;
 
+import edu.eci.pdsw.samples.entities.Consulta;
+import edu.eci.pdsw.samples.entities.Paciente;
+import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
+import edu.eci.pdsw.samples.services.ServiciosPacientesStub;
+import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -26,16 +34,37 @@ import static org.junit.Assert.*;
  */
 public class ConsultasTest {
     
-    public ConsultasTest() {
-    }
     
-    @Before
-    public void setUp() {
-    }
-    
+    //Clase de equivalencia uno: agregar una consulta a un paciente que existe
     @Test
-    public void registroPacienteTest(){
+    public void consultaTest1(){
+        ServiciosPacientesStub servicios=new ServiciosPacientesStub();
+        Paciente p=new Paciente(1,"cc","Carlos Sanchez",new Date(2016,2,2));
+        try {
+            servicios.registrarNuevoPaciente(p);
+            Consulta consulta=new Consulta(new Date(2016,2,2),"hola como estas?");
+            servicios.agregarConsultaAPaciente(1,"cc",consulta);
+            
+        } catch (ExcepcionServiciosPacientes ex) {
+            Assert.assertTrue(false);    
+        }
+        Assert.assertTrue(true);
         
+                
+    }     
+   //Clase de equivalencia dos:  agregar una consulta a un paciente que no existe
+   @Test
+    public void consultaTest2(){
+        ServiciosPacientesStub servicios=new ServiciosPacientesStub();
+        try {
+            Consulta consulta=new Consulta(new Date(2016,2,2),"hola como estas?");
+            servicios.agregarConsultaAPaciente(1,"cc",consulta);
+            
+        } catch (ExcepcionServiciosPacientes ex) {
+            Assert.assertTrue(true);    
+        }
+        Assert.assertTrue(false);
+                
     }
     
     

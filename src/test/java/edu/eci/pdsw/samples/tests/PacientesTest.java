@@ -32,6 +32,7 @@ import junit.framework.Assert;
  */
 public class PacientesTest {
     
+
     public PacientesTest() {
     }
     
@@ -65,4 +66,5 @@ public class PacientesTest {
             Assert.assertTrue(true);
         }
     } 
+
 }
