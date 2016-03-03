@@ -16,10 +16,16 @@
  */
 package edu.eci.pdsw.samples.tests;
 
+import edu.eci.pdsw.samples.entities.Paciente;
+import edu.eci.pdsw.samples.managedbeans.RegistroConsultaBean;
+import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
+import edu.eci.pdsw.samples.services.ServiciosPacientesStub;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.Date;
+import junit.framework.Assert;
 /**
  *
  * @author hcadavid
@@ -29,14 +35,34 @@ public class PacientesTest {
     public PacientesTest() {
     }
     
-    @Before
-    public void setUp() {
-    }
-    
+    /*1:Registrar un paciente que no exite - Pos*/
     @Test
-    public void registroPacienteTest(){
-        
+    public void registroPacienteTestUno(){        
+        Date date = new Date(1850, 11, 19);
+        Paciente jhordy = new Paciente(1121946483,"Cedula","Jhordy Salinas", (java.sql.Date) date);
+        ServiciosPacientesStub servicio = new ServiciosPacientesStub();
+        try{
+            servicio.registrarNuevoPaciente(jhordy);
+            Assert.assertTrue(true);
+        }
+        catch(ExcepcionServiciosPacientes e){       
+            fail("El paciente ya existe!!!");
+        }
     }
     
-    
+    /*2:Registrar un paciente ya existente - Neg*/
+    @Test
+    public void registroPacienteTestDos(){        
+        Date date = new Date(1850, 11, 19);
+        Paciente jhordy = new Paciente(1121946483,"Cedula","Jhordy Salinas", (java.sql.Date) date);
+        ServiciosPacientesStub servicio = new ServiciosPacientesStub();
+        try{
+            servicio.registrarNuevoPaciente(jhordy);
+            servicio.registrarNuevoPaciente(jhordy);
+            fail("El paciente ya existe!!!");
+        }
+        catch(ExcepcionServiciosPacientes e){
+            Assert.assertTrue(true);
+        }
+    } 
 }
