@@ -23,8 +23,7 @@ import edu.eci.pdsw.samples.services.ServiciosPacientesStub;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
-import java.util.Date;
+import java.sql.Date;
 import junit.framework.Assert;
 /**
  *
@@ -39,32 +38,33 @@ public class PacientesTest {
     /*1:Registrar un paciente que no exite - Pos*/
     @Test
     public void registroPacienteTestUno(){        
-        Date date = new Date(1850, 11, 19);
-        Paciente jhordy = new Paciente(1121946483,"Cedula","Jhordy Salinas", (java.sql.Date) date);
+        Date date = java.sql.Date.valueOf("1997-06-19");
+        Paciente jhordy = new Paciente(1121946483,"Cedula","Jhordy Salinas",date);
         ServiciosPacientesStub servicio = new ServiciosPacientesStub();
         try{
             servicio.registrarNuevoPaciente(jhordy);
             Assert.assertTrue(true);
         }
-        catch(ExcepcionServiciosPacientes e){       
-            fail("El paciente ya existe!!!");
+        catch(ExcepcionServiciosPacientes e){               
+            //Si entra aqui es porque no se pudo agregar exitosamente, estando mal la prueba
+            Assert.fail("El paciente ya aparece en el registro"+e.getMessage());
         }
     }
     
     /*2:Registrar un paciente ya existente - Neg*/
     @Test
     public void registroPacienteTestDos(){        
-        Date date = new Date(1850, 11, 19);
-        Paciente jhordy = new Paciente(1121946483,"Cedula","Jhordy Salinas", (java.sql.Date) date);
+        Date date = java.sql.Date.valueOf("1997-06-25");
+        Paciente carlos= new Paciente(1178458556,"Cedula","Carlos Sanchez",date);
         ServiciosPacientesStub servicio = new ServiciosPacientesStub();
         try{
-            servicio.registrarNuevoPaciente(jhordy);
-            servicio.registrarNuevoPaciente(jhordy);
-            fail("El paciente ya existe!!!");
+            servicio.registrarNuevoPaciente(carlos);
+            servicio.registrarNuevoPaciente(carlos);
+            Assert.fail("El paciente ya aparece en el registro");
         }
         catch(ExcepcionServiciosPacientes e){
+            //Si entra aqui es porque no se pudo agregar exitosamente (Por repetir)
             Assert.assertTrue(true);
         }
-    } 
-
+    }
 }

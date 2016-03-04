@@ -34,21 +34,25 @@ import static org.junit.Assert.*;
  */
 public class ConsultasTest {
     
-    
+   
     //Clase de equivalencia uno: agregar una consulta a un paciente que existe
     @Test
     public void consultaTest1(){
         ServiciosPacientesStub servicios=new ServiciosPacientesStub();
-        Paciente p=new Paciente(1,"cc","Carlos Sanchez",new Date(2016,2,2));
+        Paciente p=new Paciente(1,"cc","Carlos Sanchez",java.sql.Date.valueOf("2000-01-01"));
         try {
             servicios.registrarNuevoPaciente(p);
-            Consulta consulta=new Consulta(new Date(2016,2,2),"hola como estas?");
+            Consulta consulta=new Consulta(java.sql.Date.valueOf("2000-01-02"),"hola como estas?");
             servicios.agregarConsultaAPaciente(1,"cc",consulta);
-            
+            for(Consulta s: p.getConsultas()){
+                if(s.equals(consulta)){
+                    Assert.assertTrue(s.equals(consulta));
+                }
+            }
         } catch (ExcepcionServiciosPacientes ex) {
-            Assert.assertTrue(false);    
+            fail("No se pudo agregar la consulta a un paciente que ya existe"+ex.getMessage());   
         }
-        Assert.assertTrue(true);
+        
         
                 
     }     
@@ -57,13 +61,13 @@ public class ConsultasTest {
     public void consultaTest2(){
         ServiciosPacientesStub servicios=new ServiciosPacientesStub();
         try {
-            Consulta consulta=new Consulta(new Date(2016,2,2),"hola como estas?");
+            Consulta consulta=new Consulta(java.sql.Date.valueOf("2000-01-01"),"hola como estas?");
             servicios.agregarConsultaAPaciente(1,"cc",consulta);
-            
+            fail("Se pudo agregar la consulta de un paciente que ya existe");
         } catch (ExcepcionServiciosPacientes ex) {
             Assert.assertTrue(true);    
         }
-        Assert.assertTrue(false);
+        
                 
     }
     
