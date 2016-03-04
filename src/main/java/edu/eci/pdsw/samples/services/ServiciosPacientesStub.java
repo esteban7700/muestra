@@ -56,7 +56,7 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
     public void registrarNuevoPaciente(Paciente p) throws ExcepcionServiciosPacientes {
         pacientes.put(new Tupla<>(p.getId(),p.getTipo_id()), p);
     }
-
+    
     @Override
     public void agregarConsultaAPaciente(int idPaciente, String tipoid, Consulta c) throws ExcepcionServiciosPacientes {
         Paciente p=pacientes.get(new Tupla<>(idPaciente,tipoid));
