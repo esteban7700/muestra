@@ -35,7 +35,7 @@ public class PacientesTest {
     public PacientesTest() {
     }
     
-    /*1:Registrar un paciente que no exite - Pos*/
+    /*:Registrar un paciente que no exite - Pos*/
     @Test
     public void registroPacienteTestUno(){        
         Date date = java.sql.Date.valueOf("1997-06-19");
@@ -47,7 +47,7 @@ public class PacientesTest {
         }
         catch(ExcepcionServiciosPacientes e){               
             //Si entra aqui es porque no se pudo agregar exitosamente, estando mal la prueba
-            Assert.fail("El paciente ya aparece en el registro"+e.getMessage());
+            Assert.fail(e.getMessage());
         }
     }
     
@@ -55,15 +55,15 @@ public class PacientesTest {
     @Test
     public void registroPacienteTestDos(){        
         Date date = java.sql.Date.valueOf("1997-06-25");
-        Paciente carlos= new Paciente(1178458556,"Cedula","Carlos Sanchez",date);
+        Paciente repetido = new Paciente(123, "CC", "Juan Perez", java.sql.Date.valueOf("2000-01-01"));
+        //Paciente carlos= new Paciente(1178458556,"Cedula","Carlos Sanchez",date);
         ServiciosPacientesStub servicio = new ServiciosPacientesStub();
         try{
-            servicio.registrarNuevoPaciente(carlos);
-            servicio.registrarNuevoPaciente(carlos);
+            servicio.registrarNuevoPaciente(repetido);
             Assert.fail("El paciente ya aparece en el registro");
         }
         catch(ExcepcionServiciosPacientes e){
-            //Si entra aqui es porque no se pudo agregar exitosamente (Por repetir)
+            //Si entra aqui es porque no se pudo agregar exitosamente (Por repetir)           
             Assert.assertTrue(true);
         }
     }

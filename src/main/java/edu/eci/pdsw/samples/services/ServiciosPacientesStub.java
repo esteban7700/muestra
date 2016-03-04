@@ -47,6 +47,7 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
             throw new ExcepcionServiciosPacientes("Paciente "+idPaciente+" no esta registrado");
         }
         else{
+            System.out.println("estoy en el else con : "+ idPaciente);
             return p;
         }
         
@@ -54,7 +55,19 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
 
     @Override
     public void registrarNuevoPaciente(Paciente p) throws ExcepcionServiciosPacientes {
-        pacientes.put(new Tupla<>(p.getId(),p.getTipo_id()), p);
+        boolean continua=true;
+        try{
+            consultarPaciente(p.getId(), p.getTipo_id());
+            
+        }
+        catch(ExcepcionServiciosPacientes e){
+            pacientes.put(new Tupla<>(p.getId(),p.getTipo_id()), p);
+            continua=false;
+        }
+        if(continua){
+            throw new ExcepcionServiciosPacientes("Paciente "+p.getId()+" ya esta registrado");
+        }
+        
     }
     
     @Override
