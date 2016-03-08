@@ -16,20 +16,136 @@
  */
 package edu.eci.pdsw.samples.managedbeans;
 
+import edu.eci.pdsw.samples.entities.Paciente;
+import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 import java.io.Serializable;
-import javax.annotation.ManagedBean;
-import javax.enterprise.context.SessionScoped;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author hcadavid
  */
-@ManagedBean
+@ManagedBean(name="Registro")
 @SessionScoped
-public class RegistroConsultaBean implements Serializable{
+public class RegistroConsultaBean{
     
-    ServiciosPacientes sp=ServiciosPacientes.getInstance();
-    
+    private ServiciosPacientes sp=ServiciosPacientes.getInstance();
+    private int id;
+    private String tipoId;
+    private String nombre;
+    private String fecha;
+    private List<Paciente> listaPacientes=sp.getPacientes();
+    private Paciente pacienteSeleccionado;
+
+    public void accionAgregarPaciente() {
+        
+        FacesContext context=FacesContext.getCurrentInstance();
+        boolean continua=true;
+        try {        
+            sp.registrarNuevoPaciente(new Paciente(id,tipoId,nombre,java.sql.Date.valueOf(fecha.replace('/','-'))));
+            listaPacientes=sp.getPacientes();
+            if(continua){
+                context.addMessage(null, new FacesMessage("Bien hecho: ","Se ha registrado bien el paciente"));
+            
+            }
+        } catch (Exception ex) {
+            continua=false;
+            context.addMessage(null, new FacesMessage("Error: ", ex.getMessage()));
+        }
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the tipoId
+     */
+    public String getTipoId() {
+        return tipoId;
+    }
+
+    /**
+     * @param tipoId the tipoId to set
+     */
+    public void setTipoId(String tipoId) {
+        this.tipoId = tipoId;
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @return the fecha
+     */
+    public String getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * @return the listaPacientes
+     */
+    public List<Paciente> getListaPacientes() {
+        return listaPacientes;
+    }
+
+    /**
+     * @param listaPacientes the listaPacientes to set
+     */
+    public void setListaPacientes(List<Paciente> listaPacientes) {
+        this.listaPacientes = listaPacientes;
+    }
+
+    /**
+     * @return the pacienteSeleccionado
+     */
+    public Paciente getPacienteSeleccionado() {
+        return pacienteSeleccionado;
+    }
+
+    /**
+     * @param pacienteSeleccionado the pacienteSeleccionado to set
+     */
+    public void setPacienteSeleccionado(Paciente pacienteSeleccionado) {
+        this.pacienteSeleccionado = pacienteSeleccionado;
+    }
     
 }

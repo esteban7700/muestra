@@ -19,8 +19,10 @@ package edu.eci.pdsw.samples.services;
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Paciente;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -31,12 +33,16 @@ import java.util.logging.Logger;
  * @author hcadavid
  */
 public class ServiciosPacientesStub extends ServiciosPacientes{
-
+    private List<Paciente> listaPacientes=new ArrayList<Paciente>();
     private final Map<Tupla<Integer,String>,Paciente> pacientes;
 
     public ServiciosPacientesStub() {
         this.pacientes = new LinkedHashMap<>();
         cargarDatosEstaticos(pacientes);
+    }
+    
+    public List<Paciente> getPacientes(){
+        return listaPacientes;
     }
     
     
@@ -47,7 +53,6 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
             throw new ExcepcionServiciosPacientes("Paciente "+idPaciente+" no esta registrado");
         }
         else{
-            System.out.println("estoy en el else con : "+ idPaciente);
             return p;
         }
         
@@ -62,6 +67,8 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
         }
         catch(ExcepcionServiciosPacientes e){
             pacientes.put(new Tupla<>(p.getId(),p.getTipo_id()), p);
+            listaPacientes.add(p);
+           
             continua=false;
         }
         if(continua){
