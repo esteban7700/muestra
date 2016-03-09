@@ -71,4 +71,9 @@ public abstract class ServiciosPacientes {
      */
     public abstract List<Paciente> getPacientes();
     
+    /**
+     * retorna las consultas
+     * @return las consultas de un paciente
+     */
+    public abstract List<Consulta> getConsultas(int idPaciente,String tipoid);
 }

@@ -34,6 +34,7 @@ import java.util.logging.Logger;
  */
 public class ServiciosPacientesStub extends ServiciosPacientes{
     private List<Paciente> listaPacientes=new ArrayList<Paciente>();
+    
     private final Map<Tupla<Integer,String>,Paciente> pacientes;
 
     public ServiciosPacientesStub() {
@@ -43,6 +44,13 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
     
     public List<Paciente> getPacientes(){
         return listaPacientes;
+    }
+    
+    public List<Consulta> getConsultas(int idPaciente,String tipoid){
+            List<Consulta> listaConsultas=new ArrayList<Consulta>();
+            Paciente p=pacientes.get(new Tupla<>(idPaciente,tipoid));
+            listaConsultas= (List<Consulta>) p.getConsultas();
+        return listaConsultas;
     }
     
     
@@ -85,6 +93,7 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
         }
         else{
             p.getConsultas().add(c);
+            
         }
     }
     

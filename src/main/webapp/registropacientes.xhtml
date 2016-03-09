@@ -4,7 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head></h:head>
-
+    
     <h:body>
         <h:form>
         <p:panel header="Registro de un nuevo paciente" style="margin-bottom: 10px;">
@@ -20,6 +20,7 @@
                 <p:commandButton value="Registrar paciente" actionListener="#{Registro.accionAgregarPaciente()}" update="paciente"/>
                 <br/>
             </h:panelGrid>
+            
             <p:dataTable id="paciente" var="paciente" value="#{Registro.listaPacientes}">
                     <p:column headerText="ID">
                         <h:outputText value="#{paciente.id}"/>
@@ -39,8 +40,8 @@
                         </p:commandButton>
                     </p:column>
             </p:dataTable>
+            
         </p:panel>
         </h:form>
     </h:body>
-
 </html>

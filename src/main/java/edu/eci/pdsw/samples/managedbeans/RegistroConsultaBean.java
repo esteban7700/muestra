@@ -16,12 +16,16 @@
  */
 package edu.eci.pdsw.samples.managedbeans;
 
+import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.services.ExcepcionServiciosPacientes;
 import edu.eci.pdsw.samples.services.ServiciosPacientes;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,17 +42,33 @@ import javax.swing.JOptionPane;
 @ManagedBean(name="Registro")
 @SessionScoped
 public class RegistroConsultaBean{
-    
     private ServiciosPacientes sp=ServiciosPacientes.getInstance();
     private int id;
     private String tipoId;
     private String nombre;
     private String fecha;
     private List<Paciente> listaPacientes=sp.getPacientes();
+    private List<Consulta> listaConsultas;
     private Paciente pacienteSeleccionado;
+    private String resumen;
 
+    public void accionAgregarConsulta() {
+        FacesContext context=FacesContext.getCurrentInstance();
+        boolean continua=true;
+        try {        
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
+            sp.agregarConsultaAPaciente(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id(), new Consulta(java.sql.Date.valueOf(dateFormat.format(cal.getTime())), resumen));
+            setListaConsultas(sp.getConsultas(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id()));
+            if(continua){
+                context.addMessage(null, new FacesMessage("Bien hecho: ","Se ha agregado su consulta"));
+            }
+        } catch (Exception ex) {
+            continua=false;
+            context.addMessage(null, new FacesMessage("Error: ", ex.getMessage()));
+        }
+    }
     public void accionAgregarPaciente() {
-        
         FacesContext context=FacesContext.getCurrentInstance();
         boolean continua=true;
         try {        
@@ -56,14 +76,12 @@ public class RegistroConsultaBean{
             listaPacientes=sp.getPacientes();
             if(continua){
                 context.addMessage(null, new FacesMessage("Bien hecho: ","Se ha registrado bien el paciente"));
-            
             }
         } catch (Exception ex) {
             continua=false;
             context.addMessage(null, new FacesMessage("Error: ", ex.getMessage()));
         }
     }
-
     /**
      * @return the id
      */
@@ -146,6 +164,34 @@ public class RegistroConsultaBean{
      */
     public void setPacienteSeleccionado(Paciente pacienteSeleccionado) {
         this.pacienteSeleccionado = pacienteSeleccionado;
+    }
+
+    /**
+     * @return the resumen
+     */
+    public String getResumen() {
+        return resumen;
+    }
+
+    /**
+     * @param resumen the resumen to set
+     */
+    public void setResumen(String resumen) {
+        this.resumen = resumen;
+    }
+
+    /**
+     * @return the listaConsultas
+     */
+    public List<Consulta> getListaConsultas() {
+        return listaConsultas;
+    }
+
+    /**
+     * @param listaConsultas the listaConsultas to set
+     */
+    public void setListaConsultas(List<Consulta> listaConsultas) {
+        this.listaConsultas = listaConsultas;
     }
     
 }

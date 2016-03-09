@@ -6,7 +6,22 @@
 
     <h:body>
         <h:form>
-            <h:outputText value="hola"></h:outputText>
+            <p:panel header="Registro de una nueva consulta" style="margin-bottom: 10px;">
+                <h:panelGrid columns="1" cellpadding="3">
+                    <p:outputLabel value="Resumen de su nueva consulta"/>
+                    <p:inputTextarea rows="10" cols="30" completeMethod="#{Registro.resumen}" queryDelay="750" minQueryLength="4" />                    
+                    <p:commandButton value="Registrar consulta" actionListener="#{Registro.accionAgregarConsulta()}" update="consulta"/>
+                    <br/>
+                </h:panelGrid>
+                <p:dataTable id="consulta" var="consulta" value="#{Registro.listaConsultas}">
+                    <p:column headerText="Fecha">
+                        <h:outputText value="#{consulta.fecha}"/>
+                    </p:column>
+                    <p:column headerText="Resumen">
+                        <h:outputText value="#{consulta.resumen}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
     </h:body>
 
