@@ -9,13 +9,13 @@
             <p:panel header="Registro de una nueva consulta" style="margin-bottom: 10px;">
                 <h:panelGrid columns="1" cellpadding="3">
                     <p:outputLabel value="Resumen de su nueva consulta"/>
-                    <p:inputTextarea rows="10" cols="30" completeMethod="#{Registro.resumen}" queryDelay="750" minQueryLength="4" />                    
+                    <p:inputTextarea rows="10" cols="30" value="#{Registro.resumen}" queryDelay="750" minQueryLength="4" />                    
                     <p:commandButton value="Registrar consulta" actionListener="#{Registro.accionAgregarConsulta()}" update="consulta"/>
                     <br/>
                 </h:panelGrid>
                 <p:dataTable id="consulta" var="consulta" value="#{Registro.listaConsultas}">
                     <p:column headerText="Fecha">
-                        <h:outputText value="#{consulta.fecha}"/>
+                        <h:outputText value="#{consulta.fechayHora}"/>
                     </p:column>
                     <p:column headerText="Resumen">
                         <h:outputText value="#{consulta.resumen}"/>

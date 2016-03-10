@@ -22,6 +22,8 @@ import java.sql.Date;
  *
  * @author hcadavid
  */
+
+
 public class Consulta {
     //el identificador es asignado por la base de datos,
     //por eso no se incluye en el constructor.

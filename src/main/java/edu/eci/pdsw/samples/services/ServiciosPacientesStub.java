@@ -20,11 +20,14 @@ import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Paciente;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,10 +50,12 @@ public class ServiciosPacientesStub extends ServiciosPacientes{
     }
     
     public List<Consulta> getConsultas(int idPaciente,String tipoid){
-            List<Consulta> listaConsultas=new ArrayList<Consulta>();
             Paciente p=pacientes.get(new Tupla<>(idPaciente,tipoid));
-            listaConsultas= (List<Consulta>) p.getConsultas();
-        return listaConsultas;
+            List<Consulta> p1 = new LinkedList<Consulta>();
+            for (Consulta key : p.getConsultas()){
+                p1.add(key);
+            }
+        return p1;
     }
     
     

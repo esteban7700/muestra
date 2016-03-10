@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -41,7 +42,7 @@ import javax.swing.JOptionPane;
  */
 @ManagedBean(name="Registro")
 @SessionScoped
-public class RegistroConsultaBean{
+public class RegistroConsultaBean implements Serializable{
     private ServiciosPacientes sp=ServiciosPacientes.getInstance();
     private int id;
     private String tipoId;
@@ -52,13 +53,26 @@ public class RegistroConsultaBean{
     private Paciente pacienteSeleccionado;
     private String resumen;
 
+    
+    
+    
+    public void cambieLista(){
+        try{
+        setListaConsultas(sp.getConsultas(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id()));}
+        catch(Exception e){
+            setListaConsultas(new ArrayList<Consulta>());
+        }
+        
+        
+    }
     public void accionAgregarConsulta() {
         FacesContext context=FacesContext.getCurrentInstance();
         boolean continua=true;
-        try {        
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar cal = Calendar.getInstance();
-            sp.agregarConsultaAPaciente(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id(), new Consulta(java.sql.Date.valueOf(dateFormat.format(cal.getTime())), resumen));
+            Date date=java.sql.Date.valueOf(dateFormat.format(cal.getTime()));
+            sp.agregarConsultaAPaciente(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id(), new Consulta(date, resumen));
             setListaConsultas(sp.getConsultas(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id()));
             if(continua){
                 context.addMessage(null, new FacesMessage("Bien hecho: ","Se ha agregado su consulta"));

@@ -35,12 +35,11 @@
                         <h:outputText value="#{paciente.fechaNacimiento}"/>
                     </p:column>
                     <p:column headerText="Cita">
-                        <p:commandButton value="Registrar cita" action="registroconsultas">
-                            <f:setPropertyActionListener value="#{paciente}" target="#{Registro.pacienteSeleccionado}"></f:setPropertyActionListener>
+                        <p:commandButton value="Registrar cita" action="registroconsultas" actionListener="#{Registro.cambieLista()}" update="">
+                            <f:setPropertyActionListener value="#{paciente}" target="#{Registro.pacienteSeleccionado}"/>
                         </p:commandButton>
                     </p:column>
             </p:dataTable>
-            
         </p:panel>
         </h:form>
     </h:body>
