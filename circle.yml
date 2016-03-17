@@ -7,7 +7,7 @@ deployment:
   staging:
     branch: master
     heroku: 
-      appname: SalinasSanchez
+      appname: ProyectoBase
 
 test:
   post:
