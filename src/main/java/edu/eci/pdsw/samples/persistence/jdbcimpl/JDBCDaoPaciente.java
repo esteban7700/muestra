@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -142,6 +143,16 @@ public class JDBCDaoPaciente implements DaoPaciente {
             throw new PersistenceException("An error ocurred while loading a product.",ex);
         } */
         throw new RuntimeException("No se ha implementado el metodo 'load' del DAOPAcienteJDBC");
+    }
+
+    @Override
+    public List<Paciente> getPacientes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Consulta> getConsultas(int idPaciente, String tipoid) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

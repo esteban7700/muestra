@@ -16,7 +16,9 @@
  */
 package edu.eci.pdsw.samples.persistence;
 
+import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Paciente;
+import java.util.List;
 
 
 /**
@@ -32,5 +34,7 @@ public interface DaoPaciente {
     
     public void update(Paciente p) throws PersistenceException;
     
+    public List<Paciente> getPacientes() ;
     
+    public List<Consulta> getConsultas(int idPaciente, String tipoid);
 }
