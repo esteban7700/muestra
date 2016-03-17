@@ -48,23 +48,16 @@ public class RegistroConsultaBean implements Serializable{
     private String tipoId;
     private String nombre;
     private String fecha;
-    private List<Paciente> listaPacientes=sp.getPacientes();
+    private List<Paciente> listaPacientes;
     private List<Consulta> listaConsultas;
     private Paciente pacienteSeleccionado;
     private String resumen;
 
-    
-    
-    
-    public void cambieLista(){
-        try{
-        setListaConsultas(sp.getConsultas(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id()));}
-        catch(Exception e){
-            setListaConsultas(new ArrayList<Consulta>());
-        }
-        
-        
+    public RegistroConsultaBean() throws ExcepcionServiciosPacientes {
+        this.listaPacientes = sp.getPacientes();
     }
+        
+    
     public void accionAgregarConsulta() {
         FacesContext context=FacesContext.getCurrentInstance();
         boolean continua=true;
@@ -198,6 +191,11 @@ public class RegistroConsultaBean implements Serializable{
      * @return the listaConsultas
      */
     public List<Consulta> getListaConsultas() {
+        try{
+        setListaConsultas(sp.getConsultas(pacienteSeleccionado.getId(), pacienteSeleccionado.getTipo_id()));}
+        catch(Exception e){
+            setListaConsultas(new ArrayList<Consulta>());
+        }
         return listaConsultas;
     }
 

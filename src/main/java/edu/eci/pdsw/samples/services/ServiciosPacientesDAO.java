@@ -13,8 +13,10 @@ import edu.eci.pdsw.samples.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -25,6 +27,7 @@ public class ServiciosPacientesDAO extends ServiciosPacientes{
     
     private DaoPaciente dao;
     private final DaoFactory daoFactory;
+    private int cont=10;
     
     public ServiciosPacientesDAO(){
         InputStream input = null;
@@ -75,8 +78,11 @@ public class ServiciosPacientesDAO extends ServiciosPacientes{
         try {
             daoFactory.beginSession();
             dao=daoFactory.getDaoPaciente();
-            dao.load(idPaciente, tipoid).getConsultas().add(c);
-            dao.update(dao.load(idPaciente, tipoid));
+            Paciente p=dao.load(idPaciente, tipoid);
+            Set<Consulta> consultas=p.getConsultas();
+            consultas.add(c);
+            p.setConsultas(consultas);
+            dao.update(p);
             daoFactory.commitTransaction();
             daoFactory.endSession();
         } catch (PersistenceException ex) {
@@ -85,16 +91,31 @@ public class ServiciosPacientesDAO extends ServiciosPacientes{
     }
 
     @Override
-    public List<Paciente> getPacientes() {
-        List<Paciente> pacientes;
-        pacientes = dao.getPacientes();
-        return pacientes;
+    public List<Paciente> getPacientes() throws ExcepcionServiciosPacientes  {
+        try {
+            daoFactory.beginSession();
+            dao=daoFactory.getDaoPaciente();
+            List<Paciente> pacientes = dao.getPacientes();
+            daoFactory.commitTransaction();
+            daoFactory.endSession();
+            return pacientes;
+        } catch (PersistenceException ex) {
+            throw new ExcepcionServiciosPacientes(ex.getMessage());
+        }
     }
 
     @Override
-    public List<Consulta> getConsultas(int idPaciente, String tipoid) {
-        List<Consulta> consultas;
-        consultas=dao.getConsultas(idPaciente, tipoid);
-        return consultas;
+    public List<Consulta> getConsultas(int idPaciente, String tipoid) throws ExcepcionServiciosPacientes  {
+        try {
+            daoFactory.beginSession();
+            dao=daoFactory.getDaoPaciente();
+            List<Consulta> consultas;
+            consultas=dao.getConsultas(idPaciente, tipoid);
+            daoFactory.commitTransaction();
+            daoFactory.endSession();
+            return consultas;
+        } catch (PersistenceException ex) {
+            throw new ExcepcionServiciosPacientes(ex.getMessage());
+        }
     }
 }

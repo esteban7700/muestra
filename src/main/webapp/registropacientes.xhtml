@@ -17,10 +17,12 @@
                 <p:inputText value="#{Registro.nombre}" required="true"/>
                 <p:outputLabel value="Fecha de nacimiento"/>
                 <p:inputMask value="#{Registro.fecha}" mask="9999/99/99" required="true"/>
-                <p:commandButton value="Registrar paciente" actionListener="#{Registro.accionAgregarPaciente()}" update="paciente"/>
+                <p:commandButton value="Registrar paciente" actionListener="#{Registro.accionAgregarPaciente()}" update=":paciente1:paciente"/>
                 <br/>
             </h:panelGrid>
-            
+            </p:panel>
+            </h:form>
+            <h:form id = "paciente1">
             <p:dataTable id="paciente" var="paciente" value="#{Registro.listaPacientes}">
                     <p:column headerText="ID">
                         <h:outputText value="#{paciente.id}"/>
@@ -35,12 +37,12 @@
                         <h:outputText value="#{paciente.fechaNacimiento}"/>
                     </p:column>
                     <p:column headerText="Cita">
-                        <p:commandButton value="Registrar cita" action="registroconsultas" actionListener="#{Registro.cambieLista()}" update="">
+                        <p:commandButton value="Registrar cita" action="registroconsultas">
                             <f:setPropertyActionListener value="#{paciente}" target="#{Registro.pacienteSeleccionado}"/>
                         </p:commandButton>
                     </p:column>
             </p:dataTable>
-        </p:panel>
-        </h:form>
+            </h:form>
+  
     </h:body>
 </html>

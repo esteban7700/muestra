@@ -25,6 +25,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -114,14 +115,13 @@ public class JDBCDaoPaciente implements DaoPaciente {
 
             for (Consulta c:p.getConsultas()){
                 PreparedStatement agregarConsulta;
-                String cons="INSERT INTO CONSULTAS (idCONSULTAS,fecha_y_hora,resumen,PACIENTES_id,PACIENTES_tipo_id) "
-                        + "VALUES(?,?,?,?,?)";
+                String cons="INSERT INTO CONSULTAS (fecha_y_hora,resumen,PACIENTES_id,PACIENTES_tipo_id) "
+                        + "VALUES(?,?,?,?)";
                 agregarConsulta=con.prepareStatement(cons);
-                agregarConsulta.setInt(1, c.getId());
-                agregarConsulta.setDate(2, c.getFechayHora());
-                agregarConsulta.setString(3, c.getResumen());
-                agregarConsulta.setInt(4, p.getId());
-                agregarConsulta.setString(5, p.getTipo_id());
+                agregarConsulta.setDate(1, c.getFechayHora());
+                agregarConsulta.setString(2, c.getResumen());
+                agregarConsulta.setInt(3, p.getId());
+                agregarConsulta.setString(4, p.getTipo_id());
                 agregarConsulta.execute();
             }
         }
@@ -136,23 +136,68 @@ public class JDBCDaoPaciente implements DaoPaciente {
 
     @Override
     public void update(Paciente p) throws PersistenceException {
-        PreparedStatement ps;
-        /*try {
-            
-        } catch (SQLException ex) {
-            throw new PersistenceException("An error ocurred while loading a product.",ex);
-        } */
-        throw new RuntimeException("No se ha implementado el metodo 'load' del DAOPAcienteJDBC");
+        String consultarC="DELETE FROM PACIENTES WHERE id=? and tipo_id=?";
+        ResultSet r = null;
+        PreparedStatement prepared;
+        PreparedStatement prepare; 
+        try {
+            String eliminarResto="DELETE FROM CONSULTAS WHERE PACIENTES_id=? and PACIENTES_tipo_id=?";
+            prepare=con.prepareStatement(eliminarResto);
+            prepare.setInt(1, p.getId());
+            prepare.setString(2, p.getTipo_id());
+            prepare.execute();
+            prepared=con.prepareStatement(consultarC);
+            prepared.setInt(1, p.getId());
+            prepared.setString(2, p.getTipo_id());
+            prepared.execute();
+            save(p);
+   
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(JDBCDaoPaciente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public List<Paciente> getPacientes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String consultarC="SELECT id,tipo_id,nombre,fecha_nacimiento FROM PACIENTES";
+        ResultSet r = null;
+        List<Paciente> pacientes = new ArrayList<Paciente>();
+        PreparedStatement prepared;
+        try {
+            prepared=con.prepareStatement(consultarC);
+            r=prepared.executeQuery();
+            while(r.next()){
+                pacientes.add(new Paciente(r.getInt(1), r.getString(2), r.getString(3),  r.getDate(4)));
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(JDBCDaoPaciente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pacientes;
     }
 
     @Override
     public List<Consulta> getConsultas(int idPaciente, String tipoid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String consultarC="SELECT fecha_y_hora,resumen,idCONSULTAS FROM CONSULTAS WHERE PACIENTES_id=? AND PACIENTES_tipo_id=?" ;
+        ResultSet r = null;
+        List<Consulta> consultas = new ArrayList<Consulta>();
+        PreparedStatement prepared;
+        try {
+            prepared=con.prepareStatement(consultarC);
+            prepared.setInt(1, idPaciente);
+            prepared.setString(2, tipoid);
+            r=prepared.executeQuery();
+            while(r.next()){
+                Consulta con=new Consulta(r.getDate(1),r.getString(2));
+                con.setId(r.getInt(3));
+                consultas.add(con);
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(JDBCDaoPaciente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return consultas;
     }
     
 }

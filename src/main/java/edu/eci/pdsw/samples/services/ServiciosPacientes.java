@@ -28,7 +28,7 @@ import java.util.Set;
 public abstract class ServiciosPacientes {
     
     
-    private static ServiciosPacientes instance=new ServiciosPacientesStub();
+    private static ServiciosPacientes instance=new ServiciosPacientesDAO();
     
     
     protected ServiciosPacientes(){        
@@ -70,11 +70,11 @@ public abstract class ServiciosPacientes {
      * retorna los pacientes
      * @return los pacientes de los serviciosPacientes
      */
-    public abstract List<Paciente> getPacientes();
+    public abstract List<Paciente> getPacientes() throws ExcepcionServiciosPacientes ;
     
     /**
      * retorna las consultas
      * @return las consultas de un paciente
      */
-    public abstract List<Consulta> getConsultas(int idPaciente,String tipoid);
+    public abstract List<Consulta> getConsultas(int idPaciente,String tipoid) throws ExcepcionServiciosPacientes ;
 }
