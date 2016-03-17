@@ -7,7 +7,7 @@ deployment:
   staging:
     branch: master
     heroku: 
-      appname: firstApp
+      appname: SalinasSanchez
 
 test:
   post:
