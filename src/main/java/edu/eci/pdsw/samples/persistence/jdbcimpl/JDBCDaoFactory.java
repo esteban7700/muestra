@@ -73,9 +73,6 @@ public class JDBCDaoFactory extends DaoFactory {
         
     }
 
-
-    
-    
     @Override
     public void endSession() throws PersistenceException {
         try {
@@ -117,10 +114,9 @@ public class JDBCDaoFactory extends DaoFactory {
             throw new PersistenceException("Error on connection closing.",ex);
         }
     }
-
+    
     @Override
     public DaoPaciente getDaoPaciente() {
         return new JDBCDaoPaciente(connectionInstance.get());
     }
-    
 }

@@ -18,17 +18,25 @@
         <result property='fechayHora' column='fecha_y_hora'/>
         <result property='resumen' column='resumen'/>        
     </resultMap>                                                                                             
-    
+   
     <insert id="insertConsulta" useGeneratedKeys="true" keyProperty="consulta.id">
         insert into CONSULTAS (fecha_y_hora,resumen,PACIENTES_id,PACIENTES_tipo_id) values(#{consulta.fechayHora},#{consulta.resumen},#{idpacienteconsulta},#{tipoidpacienteconsulta})
     </insert>
    
     <insert id="insertPaciente">
-        insert into PACIENTES (id,tipo_id,nombre,fecha_nacimiento) values(#{paciente.id},#{paciente.tipo_id},#{paciente.nombre},#{paciente.fechaNacimiento});
+        insert into PACIENTES (id,tipo_id,nombre,fecha_nacimiento) values(#{paciente.id},#{paciente.tipo_id},#{paciente.nombre},#{paciente.fechaNacimiento})
     </insert>
     
     <select id='loadPacienteById' parameterType='map' resultMap='PacienteResult'>
         select pac.id, pac.tipo_id, pac.nombre, pac.fecha_nacimiento, con.idCONSULTAS as consulta_idCONSULTAS, con.fecha_y_hora as consulta_fecha_y_hora, con.resumen as consulta_resumen from PACIENTES as pac left join CONSULTAS as con on con.PACIENTES_id=pac.id and con.PACIENTES_tipo_id=pac.tipo_id where pac.id=#{idpaciente} and pac.tipo_id='tipoidpaciente'
+    </select>
+    
+    <select id='loadPacientes' parameterType='map' resultMap='PacienteResult'>
+        select * from PACIENTES;
+    </select>
+    
+    <select id='loadConsultas' parameterType="map" resultMap="ConsultaResult">
+        select * from CONSULTAS where PACIENTES_id=#{idpaciente} and PACIENTES_tipo_id=#{tipoidpaciente}
     </select>
     
 </mapper>

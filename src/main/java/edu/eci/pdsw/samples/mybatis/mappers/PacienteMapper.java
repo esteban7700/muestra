@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package edu.eci.pdsw.samples.mybatis.mappers;
-
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Paciente;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -47,5 +47,8 @@ public interface PacienteMapper {
      * @param tipoid el tipo de ID del PACIENTE
      */
     public void insertConsulta(@Param("consulta") Consulta con,@Param("idpacienteconsulta")int id,@Param("tipoidpacienteconsulta")String tipoid);
-        
+    
+    public List<Paciente> loadPacientes();
+    
+    public List<Consulta> loadConsultas(@Param("idpaciente") int idPaciente, @Param("tipoidpaciente") String tipoid);
 }

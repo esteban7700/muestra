@@ -35,8 +35,12 @@ public abstract class DaoFactory {
             synchronized (DaoFactory.class) {
                 if (instance == null) {
                     if (appProperties.get("dao").equals("jdbc")) {
-                        instance = new JDBCDaoFactory(appProperties);
-                    } else {
+                        instance = new JDBCDaoFactory(appProperties);    
+                    }
+                    else if(appProperties.get("dao").equals("mybatis")) {
+                        instance = new DaoFactoryMyBatis(appProperties);    
+                    }
+                    else {
                         throw new RuntimeException("Wrong configuration: Unsupported DAO:" + appProperties.get("dao"));
                     }
                 }
@@ -46,12 +50,14 @@ public abstract class DaoFactory {
     }
 
     public abstract void beginSession() throws PersistenceException;
-
-    public abstract DaoPaciente getDaoPaciente();
-
+    
     public abstract void commitTransaction() throws PersistenceException;
 
     public abstract void rollbackTransaction() throws PersistenceException;
 
     public abstract void endSession() throws PersistenceException;
+
+    public DaoPaciente getDaoPaciente() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
