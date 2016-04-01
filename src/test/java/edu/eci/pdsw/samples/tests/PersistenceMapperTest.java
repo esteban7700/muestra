@@ -35,7 +35,7 @@ import org.junit.Assert;
  *
  * @author hcadavid
  */
-public class PersistenceTestMapper {
+public class PersistenceMapperTest {
 
     public static SqlSessionFactory getSqlSessionFactory() {
         SqlSessionFactory sqlSessionFactory = null;
@@ -51,13 +51,13 @@ public class PersistenceTestMapper {
         return sqlSessionFactory;
     }
 
-    public PersistenceTestMapper() {}
+    public PersistenceMapperTest() {}
 
     @Before
     public void setUp() {
     }
     @Test
-    public void TestOne(){
+    public void OneTest(){
     SqlSessionFactory sessionfact = getSqlSessionFactory();
     SqlSession sqlss = sessionfact.openSession();
     PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
@@ -66,31 +66,37 @@ public class PersistenceTestMapper {
     sqlss.close();
     }
     @Test
-    public void TestTwo(){
+    public void TwoTest(){
+        int numero=1221946830;
     SqlSessionFactory sessionfact = getSqlSessionFactory();
     SqlSession sqlss = sessionfact.openSession();
     PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
     Date date = java.sql.Date.valueOf("1998-06-19");
-    Paciente jhordy = new Paciente(1121946847,"cc","Jhordy Salinis",date);
+    Paciente jhordy = new Paciente(numero,"cc","Jhordy Salinis",date);
     pmap.insertPaciente(jhordy);
-    Assert.assertTrue(jhordy.equals(pmap.loadPacienteById(1121946847,"cc")));
+        
+    Assert.assertEquals(jhordy.toString(),pmap.loadPacienteById(numero,"cc").toString());
     sqlss.commit();
     sqlss.close();
     }
     @Test
-    public void TestThree(){
+    public void ThreeTest(){
+        int numero=1221946839;
     SqlSessionFactory sessionfact = getSqlSessionFactory();
     SqlSession sqlss = sessionfact.openSession();
     PacienteMapper pmap=sqlss.getMapper(PacienteMapper.class);
     Date date = java.sql.Date.valueOf("1998-06-19");
-    Paciente jhordy = new Paciente(1121946895,"cc","Jhordy Salinis",date);
+    Paciente jhordy = new Paciente(numero,"cc","Jhordy Salinis",date);
     pmap.insertPaciente(jhordy);
     Consulta consulta=new Consulta(java.sql.Date.valueOf("2000-01-02"),"hola como estas?");
     pmap.insertConsulta(consulta,jhordy.getId(),jhordy.getTipo_id());
     Set<Consulta> set=jhordy.getConsultas();
     set.add(consulta);
     jhordy.setConsultas(set);
-    Assert.assertTrue(jhordy.toString().equals(pmap.loadPacienteById(1121946895,"cc").toString()));
+    System.out.println("hola");
+        System.out.println(jhordy.toString());
+        System.out.println(pmap.loadPacienteById(numero,"cc").toString());
+    Assert.assertEquals(jhordy.toString(),pmap.loadPacienteById(numero,"cc").toString());
     sqlss.commit();
     sqlss.close();
     }    
