@@ -24,8 +24,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * @author 2105534
  */
 public class DaoFactoryMyBatis extends DaoFactory{
-    private SqlSessionFactory sesionFactory;
-    private SqlSession sesion;
+    private static SqlSessionFactory sesionFactory;
+    private SqlSession sesion=null;
     
     public DaoFactoryMyBatis(Properties appProperties) {
         sesionFactory=getSqlSessionFactory(appProperties);

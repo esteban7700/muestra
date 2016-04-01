@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.sql.Date;
-import junit.framework.Assert;
 /**
  *
  * @author hcadavid
@@ -44,11 +43,11 @@ public class PersistenciaTestStub{
         ServiciosPacientesStub servicio = new ServiciosPacientesStub();
         try{
             servicio.registrarNuevoPaciente(jhordy);
-            Assert.assertTrue(true);
+            assertTrue(true);
         }
         catch(ExcepcionServiciosPacientes e){               
             //Si entra aqui es porque no se pudo agregar exitosamente, estando mal la prueba
-            Assert.fail(e.getMessage());
+            fail(e.getMessage());
         }
     }
     
@@ -61,11 +60,11 @@ public class PersistenciaTestStub{
         ServiciosPacientesStub servicio = new ServiciosPacientesStub();
         try{
             servicio.registrarNuevoPaciente(repetido);
-            Assert.fail("El paciente ya aparece en el registro");
+            fail("El paciente ya aparece en el registro");
         }
         catch(ExcepcionServiciosPacientes e){
             //Si entra aqui es porque no se pudo agregar exitosamente (Por repetir)           
-            Assert.assertTrue(true);
+            assertTrue(true);
         }
     }
     
