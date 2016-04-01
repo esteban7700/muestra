@@ -33,6 +33,7 @@ public abstract class DaoFactory {
     public static DaoFactory getInstance(Properties appProperties) {
         if (instance == null) {
             synchronized (DaoFactory.class) {
+                System.out.println("!!!!!!!!---------"+appProperties.get("dao")+" "+appProperties.toString());
                 if (instance == null) {
                     if (appProperties.get("dao").equals("jdbc")) {
                         instance = new JDBCDaoFactory(appProperties);    
@@ -57,7 +58,5 @@ public abstract class DaoFactory {
 
     public abstract void endSession() throws PersistenceException;
 
-    public DaoPaciente getDaoPaciente() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract DaoPaciente getDaoPaciente();
 }

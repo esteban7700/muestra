@@ -63,7 +63,8 @@ public class ServiciosPacientesDAO extends ServiciosPacientes{
     @Override
     public void registrarNuevoPaciente(Paciente p) throws ExcepcionServiciosPacientes {
         try {
-            daoFactory.beginSession();            
+            daoFactory.beginSession();    
+            dao=daoFactory.getDaoPaciente();
             dao.save(p);
             daoFactory.commitTransaction();
             daoFactory.endSession();

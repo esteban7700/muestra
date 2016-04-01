@@ -43,6 +43,8 @@ public class PersistenceDaoTest {
         Properties properties=new Properties();
         properties.load(input);
         
+        System.out.println("??????????????????"+properties);
+        
         DaoFactory daof=DaoFactory.getInstance(properties);
         daof.beginSession();
         //IMPLEMENTACION DE LAS PRUEBAS
@@ -71,6 +73,7 @@ public class PersistenceDaoTest {
         input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
         Properties properties=new Properties();
         properties.load(input);
+        System.out.println("??????????????????"+properties);
         DaoFactory daof=DaoFactory.getInstance(properties);
         daof.beginSession();
         //IMPLEMENTACION DE LAS PRUEBAS
@@ -92,6 +95,7 @@ public class PersistenceDaoTest {
         input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
         Properties properties=new Properties();
         properties.load(input);
+        System.out.println("??????????????????"+properties);
         DaoFactory daof=DaoFactory.getInstance(properties);
         daof.beginSession();
         //IMPLEMENTACION DE LAS PRUEBAS
@@ -133,6 +137,7 @@ public class PersistenceDaoTest {
         input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
         Properties properties=new Properties();
         properties.load(input);
+        System.out.println("??????????????????"+properties);
         DaoFactory daof=DaoFactory.getInstance(properties);
         daof.beginSession();
         //IMPLEMENTACION DE LAS PRUEBAS

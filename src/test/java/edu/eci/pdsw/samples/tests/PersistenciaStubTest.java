@@ -38,6 +38,7 @@ public class PersistenciaStubTest{
     /*:Registrar un paciente que no exite - Pos*/
     @Test
     public void registroPaciente1Test(){        
+        System.out.println("1");
         Date date = java.sql.Date.valueOf("1997-06-19");
         Paciente jhordy = new Paciente(1121946483,"Cedula","Jhordy Salinas",date);
         ServiciosPacientesStub servicio = new ServiciosPacientesStub();
@@ -53,7 +54,8 @@ public class PersistenciaStubTest{
     
     /*2:Registrar un paciente ya existente - Neg*/
     @Test
-    public void registroPaciente2Test(){        
+    public void registroPaciente2Test(){    
+        System.out.println("2");
         Date date = java.sql.Date.valueOf("1997-06-25");
         Paciente repetido = new Paciente(123, "CC", "Juan Perez", java.sql.Date.valueOf("2000-01-01"));
         //Paciente carlos= new Paciente(1178458556,"Cedula","Carlos Sanchez",date);
@@ -71,7 +73,9 @@ public class PersistenciaStubTest{
     //Clase de equivalencia uno: agregar una consulta a un paciente que existe
     @Test
     public void consulta1Test(){
+        System.out.println("3");
         ServiciosPacientesStub servicios=new ServiciosPacientesStub();
+        System.out.println("3.3");
         Paciente p=new Paciente(1,"cc","Carlos Sanchez",java.sql.Date.valueOf("2000-01-01"));
         try {
             servicios.registrarNuevoPaciente(p);
@@ -92,6 +96,7 @@ public class PersistenciaStubTest{
    //Clase de equivalencia dos:  agregar una consulta a un paciente que no existe
    @Test
     public void consulta2Test(){
+        System.out.println("4");
         ServiciosPacientesStub servicios=new ServiciosPacientesStub();
         try {
             Consulta consulta=new Consulta(java.sql.Date.valueOf("2000-01-01"),"hola como estas?");

@@ -37,12 +37,13 @@ import java.util.logging.Logger;
  */
 public class ServiciosPacientesStub extends ServiciosPacientes{
     private List<Paciente> listaPacientes=new ArrayList<Paciente>();
-    
     private final Map<Tupla<Integer,String>,Paciente> pacientes;
 
     public ServiciosPacientesStub() {
+        System.out.println("creacion");
         this.pacientes = new LinkedHashMap<>();
         cargarDatosEstaticos(pacientes);
+        System.out.println("despues creacion");
     }
     
     public List<Paciente> getPacientes(){
